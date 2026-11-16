@@ -12,13 +12,13 @@ flowchart TD
         REPO["Repository Layer"]
         ROOM["Room DB\nExercises · Logs · Prefs"]
         ALARM["Alarm Engine\nAlarmManager + Foreground Service"]
-        ASSETS["Bundled Assets\nexercises_default.json + GIFs"]
+        ASSETS["Bundled Assets\nexercises_default.json + 3D Videos"]
     end
 
     subgraph BACKEND["☁️ Backend — Java Spring Boot (Phase 1.5)"]
         API["REST API\n/exercises · /exercises/version"]
         ADMINDB["Database\nExercise Library"]
-        CDN["GIF / Media Storage"]
+        CDN["3D Video / Media CDN\n(MP4 / WebM Loops)"]
     end
 
     subgraph ADMINPANEL["🖥️ Admin Web Panel — React (Phase 1.5)"]
@@ -35,7 +35,7 @@ flowchart TD
     ADMINUI <--> API
     API <--> ADMINDB
     API <--> CDN
-    ROOM -. "cache GIFs locally" .-> CDN
+    ROOM -. "cache 3D videos locally" .-> CDN
 ```
 
 ---
