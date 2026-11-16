@@ -91,7 +91,12 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 ---
 
 > [!TIP]
-> Each exercise displays an **animated GIF/illustration + step-by-step text with coaching cues**. Users can mark individual exercises as "too painful" or "not suitable" to exclude them from rotation — this feeds back to the admin analytics.
+> Each exercise displays a **3D Biomechanical Avatar Loop (CGI Anatomical Animation) + step-by-step coaching cues**:
+> - **Stylized 3D Humanoid / Anatomical Mannequin**: Clean, uncluttered digital avatar performing the exercise on a dark slate background matching the app theme. No distracting human faces, baggy clothing, or gym clutter.
+> - **Muscle Engagement Glow**: Target muscles (glutes, transverse abdominis, scapular retractors, traps) glow with neon accents (Mint `#00F5A0`, Cyan `#38BDF8`) during active contraction.
+> - **Spinal Alignment Indicators**: Visual emphasis on neutral lumbar posture vs. dangerous flexion/arching to prevent disc aggravation.
+> - **Format**: Seamless looping H.264 MP4 / WebM video delivered via hardware-accelerated playback (`VideoView` / ExoPlayer).
+> Users can mark individual exercises as "too painful" or "not suitable" to exclude them from rotation — this feeds back to the admin analytics.
 > The exercise loops automatically within the 2–3 min window (e.g., if one round of Glute Squeezes takes ~40 sec, the user does it ~3–4 times before Done appears).
 
 ---
@@ -161,7 +166,7 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 | **Notifications** | NotificationCompat |
 | **Boot resilience** | BroadcastReceiver (BOOT_COMPLETED) |
 | **Local DB** | Room |
-| **Image loading** | Glide (animated GIF support) |
+| **Media & Animation** | Android `VideoView` / ExoPlayer (3D Biomechanical MP4/WebM loops) + Coil/Glide |
 | **DI** | Manual DI (MVP) → Hilt (Phase 2) |
 | **HTTP client** | Retrofit + Gson (Phase 1.5 onwards) |
 | **Build script** | Gradle Kotlin DSL (`build.gradle.kts`) |
@@ -173,7 +178,7 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 | **Language** | Java |
 | **Framework** | Spring Boot |
 | **API style** | REST / JSON |
-| **Responsibilities** | Exercise CRUD, GIF hosting, version control, analytics |
+| **Responsibilities** | Exercise CRUD, 3D video loop hosting / CDN delivery, version control, analytics |
 
 ### 7.3 Admin Web Panel — React *(Phase 1.5)*
 
@@ -181,7 +186,7 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 |---|---|
 | **Language** | JavaScript / TypeScript |
 | **Framework** | React |
-| **Responsibilities** | Add / edit / disable exercises, upload GIFs, view analytics |
+| **Responsibilities** | Add / edit / disable exercises, upload 3D video loops, view analytics |
 
 ### 7.4 Implementation Phases
 
@@ -263,24 +268,22 @@ App Launch
 
 ```
 ┌──────────────────────────────────────────┐
-│  ⏰ Posture Reset Time!                  │
+│  ⏰ Small Break: Micro-Exercises         │
+│  [ Tab 1: Lower Body ] [ Tab 2: Posture ]│
 │                                          │
-│  [Animated GIF — Hip Flexor Stretch]     │
+│  ┌────────────────────────────────────┐  │
+│  │ 🎬 3D BIOMECHANICAL MODEL (Loop)  │  │
+│  │                                    │  │
+│  │     [ Stylized 3D Avatar ]         │  │
+│  │    [ Targeted Muscles Glow ]       │  │
+│  │                                    │  │
+│  │ ▶ Play/Pause     🔁 Seamless Loop  │  │
+│  └────────────────────────────────────┘  │
 │                                          │
-│  🦵 LEG: Standing Hip Flexor Stretch    │
+│  🦵 Slow Standing March (30s)            │
 │  ──────────────────────────────          │
-│  • Step one foot back, stand tall        │
-│  • Gently push hips forward              │
-│  • Hold 30 sec each side                 │
-│                                          │
-│  💪 POSTURE: Shoulder Blade Squeeze     │
-│  ──────────────────────────────          │
-│  • Sit straight                          │
-│  • Pull shoulder blades together         │
-│  • Hold 3 sec × 10 reps                 │
-│                                          │
-│  🔁 Round 2 of ~3   ⏳ 1:45 remaining  │
-│  ━━━━━━━━━━━━━━━░░░░░░                  │
+│  • Lift knees just high enough for hips  │
+│  • ⚠️ Do not let lower back round!       │
 │                                          │
 │  [ ✅  Done ]     [ 😴 Snooze 2 min ]   │
 └──────────────────────────────────────────┘
@@ -479,7 +482,7 @@ App on Launch:
           "duration_unit": "seconds",
           "sides": false,
           "coaching_cue": "Lift knees just high enough to engage hips — do NOT let the lower back round.",
-          "gif_url": "https://cdn.backhealth.app/gifs/standing-march.gif",
+          "video_url": "https://cdn.backhealth.app/3d/standing-march.mp4",
           "thumbnail_url": "https://cdn.backhealth.app/thumbs/standing-march.png",
           "enabled": true
         }
@@ -493,7 +496,7 @@ App on Launch:
 
 | Feature | Description |
 |---|---|
-| Add exercise | Name, set assignment, duration, coaching cues, GIF upload |
+| Add exercise | Name, set assignment, duration, coaching cues, 3D video loop MP4 upload |
 | Edit exercise | Update any field without app release |
 | Disable exercise | Toggle off — removed from rotation immediately on next app sync |
 | Reorder exercises | Drag to change display order in the library screen |
@@ -519,8 +522,8 @@ App on Launch:
 | `duration_unit` | TEXT | `seconds`, `reps`, `reps_per_side` |
 | `sides` | INTEGER | 1 = bilateral, 0 = single |
 | `coaching_cue` | TEXT | Full instruction text |
-| `gif_url` | TEXT | Remote GIF URL |
-| `gif_local_path` | TEXT | Cached local path |
+| `video_url` | TEXT | Remote 3D animation loop MP4 URL |
+| `local_video_res` | TEXT | Optional bundled raw resource identifier |
 | `enabled` | INTEGER | 1 = active, 0 = disabled by admin |
 | `sort_order` | INTEGER | Display order |
 
@@ -651,7 +654,7 @@ app/
 │   ├── assets/
 │   │   └── exercises_default.json            ← Bundled exercise list for MVP
 │   ├── res/
-│   │   ├── raw/                              ← Bundled exercise GIFs (MVP)
+│   │   ├── raw/                              ← Bundled 3D biomechanical loop videos (MP4/WebM)
 │   │   ├── layout/                           ← XML layouts
 │   │   └── values/                           ← Colors, strings, themes
 │   └── AndroidManifest.xml
@@ -660,4 +663,4 @@ app/
 
 ---
 
-*Document Version: 1.3 | Updated: 2026-11-15 | Status: Ready for Implementation*
+*Document Version: 1.4 | Updated: 2026-11-16 | Status: Ready for Implementation (3D Biomechanical Avatar Visual Standard)*
