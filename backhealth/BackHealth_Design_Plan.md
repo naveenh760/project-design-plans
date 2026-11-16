@@ -91,11 +91,10 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 ---
 
 > [!TIP]
-> Each exercise displays a **3D Biomechanical Avatar Loop (CGI Anatomical Animation) + step-by-step coaching cues**:
-> - **Stylized 3D Humanoid / Anatomical Mannequin**: Clean, uncluttered digital avatar performing the exercise on a dark slate background matching the app theme. No distracting human faces, baggy clothing, or gym clutter.
-> - **Muscle Engagement Glow**: Target muscles (glutes, transverse abdominis, scapular retractors, traps) glow with neon accents (Mint `#00F5A0`, Cyan `#38BDF8`) during active contraction.
-> - **Spinal Alignment Indicators**: Visual emphasis on neutral lumbar posture vs. dangerous flexion/arching to prevent disc aggravation.
-> - **Format**: Seamless looping H.264 MP4 / WebM video delivered via hardware-accelerated playback (`VideoView` / ExoPlayer).
+> Each exercise displays a **high-definition looping demonstration video (H.264 MP4 / WebM) + step-by-step coaching cues**:
+> - **Clear Movement Demonstration**: Full-motion looping video showing proper form, tempo, and joint angles from optimal camera angles.
+> - **Form & Safety Cues**: Highlighted coaching instructions (e.g., bracing the core, avoiding lumbar rounding, keeping neck aligned).
+> - **Fast Mobile Playback**: Seamless, muted hardware-accelerated playback with zero latency via `VideoView` / ExoPlayer.
 > Users can mark individual exercises as "too painful" or "not suitable" to exclude them from rotation — this feeds back to the admin analytics.
 > The exercise loops automatically within the 2–3 min window (e.g., if one round of Glute Squeezes takes ~40 sec, the user does it ~3–4 times before Done appears).
 
@@ -166,7 +165,7 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 | **Notifications** | NotificationCompat |
 | **Boot resilience** | BroadcastReceiver (BOOT_COMPLETED) |
 | **Local DB** | Room |
-| **Media & Animation** | Android `VideoView` / ExoPlayer (3D Biomechanical MP4/WebM loops) + Coil/Glide |
+| **Media & Video** | Android `VideoView` / ExoPlayer (Looping MP4/WebM Form Demos) + Coil/Glide |
 | **DI** | Manual DI (MVP) → Hilt (Phase 2) |
 | **HTTP client** | Retrofit + Gson (Phase 1.5 onwards) |
 | **Build script** | Gradle Kotlin DSL (`build.gradle.kts`) |
@@ -178,7 +177,7 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 | **Language** | Java |
 | **Framework** | Spring Boot |
 | **API style** | REST / JSON |
-| **Responsibilities** | Exercise CRUD, 3D video loop hosting / CDN delivery, version control, analytics |
+| **Responsibilities** | Exercise CRUD, Video loop CDN delivery, version control, analytics |
 
 ### 7.3 Admin Web Panel — React *(Phase 1.5)*
 
@@ -186,7 +185,7 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 |---|---|
 | **Language** | JavaScript / TypeScript |
 | **Framework** | React |
-| **Responsibilities** | Add / edit / disable exercises, upload 3D video loops, view analytics |
+| **Responsibilities** | Add / edit / disable exercises, upload demonstration video loops, view analytics |
 
 ### 7.4 Implementation Phases
 
@@ -272,10 +271,10 @@ App Launch
 │  [ Tab 1: Lower Body ] [ Tab 2: Posture ]│
 │                                          │
 │  ┌────────────────────────────────────┐  │
-│  │ 🎬 3D BIOMECHANICAL MODEL (Loop)  │  │
+│  │ 🎬 EXERCISE FORM DEMO (Loop)       │  │
 │  │                                    │  │
-│  │     [ Stylized 3D Avatar ]         │  │
-│  │    [ Targeted Muscles Glow ]       │  │
+│  │     [ Looping Video Demo ]         │  │
+│  │    [ Clear Joint Movement ]        │  │
 │  │                                    │  │
 │  │ ▶ Play/Pause     🔁 Seamless Loop  │  │
 │  └────────────────────────────────────┘  │
@@ -654,7 +653,7 @@ app/
 │   ├── assets/
 │   │   └── exercises_default.json            ← Bundled exercise list for MVP
 │   ├── res/
-│   │   ├── raw/                              ← Bundled 3D biomechanical loop videos (MP4/WebM)
+│   │   ├── raw/                              ← Bundled exercise demo loop videos (MP4/WebM)
 │   │   ├── layout/                           ← XML layouts
 │   │   └── values/                           ← Colors, strings, themes
 │   └── AndroidManifest.xml
@@ -663,4 +662,4 @@ app/
 
 ---
 
-*Document Version: 1.4 | Updated: 2026-11-16 | Status: Ready for Implementation (3D Biomechanical Avatar Visual Standard)*
+*Document Version: 1.5 | Updated: 2026-11-16 | Status: Ready for Implementation (Looping Video Form Demos)*
