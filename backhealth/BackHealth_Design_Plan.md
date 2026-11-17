@@ -13,36 +13,46 @@
 
 ---
 
-## 2. User Personas
+## 2. User Personas & Targeted Routines
 
-| Persona | Description | Goal |
+| Persona | Description | Daily Alarm & Break Routine |
 |---|---|---|
-| **Disc Patient** | Has a diagnosed lumbar disc issue (L4-L5, L5-S1 etc.) | Reduce pain, avoid aggravation, follow safe exercise routine |
-| **Preventive User** | No diagnosis but wants to avoid future issues | Build healthy posture habits, stay active during work |
+| **Disc Patient** | Has a diagnosed lumbar disc issue (L4-L5, L5-S1 etc.) | **Alternating 20-min cycle**: 20m Micro-Exercises (Set 1 + Set 2) ↔ 20m Walking Breaks (5 min walk) |
+| **Preventive User** | People who don't have any back issues | **40-min Walking Break**: Walk for 2–3 mins after every 40 mins. **No 20-min exercise alarm required.** |
 
 > [!NOTE]
-> Phase 1 covers **Lumbar** only. Same exercise set for both user types. Cervical (neck) support planned for Phase 2.
+> - **Disc Patients**: Require frequent mechanical pumping and posture resetting every 20 minutes to prevent disc tear compression.
+> - **Preventive Users**: Do not require micro-exercises; their primary requirement is breaking prolonged sitting by walking for 2–3 minutes every 40 minutes.
 
 ---
 
-## 3. Core Alarm Cycle
+## 3. Core Alarm Cycles
 
-The app runs a **repeating 4-alarm cycle** throughout the user's active hours:
-
+### 3.1 Disc Patient Cycle (Lumbar Recovery)
 ```
 [Start]
   │
-  ├─ Alarm 1 @ 20 min → Posture Reset Exercise (loop within 2–3 min window)
-  │        └─ User taps Done → next timer starts
+  ├─ Alarm 1 @ 20 min → Small Break: Posture Reset Exercises (2–3 min window)
+  │        └─ User taps Done → next 20m timer starts
   │
-  ├─ Alarm 2 @ 40 min → Walk Break (5 min, trust user tap)
-  │        └─ User taps "I'm Walking" → 5-min countdown → next timer starts
+  ├─ Alarm 2 @ 20 min (40m mark) → Big Break: Walk for 3–5 min (5-min timer)
+  │        └─ User taps "I'm Walking" → 5-min countdown → next 20m timer starts
   │
-  ├─ Alarm 3 @ 20 min → Posture Reset Exercise (loop within 2–3 min window)
-  │        └─ User taps Done → next timer starts
+  ├─ Alarm 3 @ 20 min → Small Break: Posture Reset Exercises (2–3 min window)
+  │        └─ User taps Done → next 20m timer starts
   │
-  └─ Alarm 4 @ 40 min → Walk Break (5 min)
+  └─ Alarm 4 @ 20 min (80m mark) → Big Break: Walk for 3–5 min
            └─ Cycle repeats
+```
+
+### 3.2 Preventive User Cycle (No Back Issues)
+```
+[Start]
+  │
+  ├─ Alarm @ 40 min → Walk Break: Walk for 2–3 minutes (3-min timer)
+  │        └─ User taps "I'm Walking" → 3-min countdown → next 40m timer starts
+  │
+  └─ [Repeats every 40 minutes throughout the active day — NO 20-min exercise alarm]
 ```
 
 Each alarm timer **starts counting only after the user completes the previous task** (or after the allotted task time expires).
@@ -100,12 +110,20 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 
 ---
 
-## 5. Walk Break (40-Minute Alarm)
+## 5. Walk Breaks
 
-- Full-screen alarm card: **"Time to Walk!"**
-- User taps **"I'm Walking"** → 5-minute countdown begins on screen
-- After 5 minutes → notification rings → next 20-min cycle begins
-- If user doesn't tap, snooze prompt appears after 2 minutes
+### 5.1 Disc Patients (Big Break — 5 Minutes)
+- **Schedule**: Alternating 20-minute mark (every even interval, e.g. 40m, 80m).
+- Full-screen alarm card: **"🚶 Big Break"**
+- User taps **"I'm Walking"** → 5-minute countdown begins on screen.
+- After 5 minutes → notification rings → next 20-min Small Break (exercises) cycle begins.
+
+### 5.2 Preventive Users / No Back Issues (Walk Break — 2 to 3 Minutes)
+- **Schedule**: Every 40 minutes (no micro-exercise break).
+- Full-screen alarm card: **"🚶 Walk Break"**
+- User taps **"I'm Walking"** → 2–3 minute (180s) countdown begins on screen.
+- After walking → notification rings → next 40-minute walk timer begins.
+- If user doesn't tap, snooze prompt appears after 2 minutes.
 - *(Phase 2: auto-detect via step counter)*
 
 ---
