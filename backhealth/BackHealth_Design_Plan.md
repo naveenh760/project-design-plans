@@ -18,11 +18,11 @@
 | Persona | Description | Daily Alarm & Break Routine |
 |---|---|---|
 | **Disc Patient** | Has a diagnosed lumbar disc issue (L4-L5, L5-S1 etc.) | **Alternating 20-min cycle**: 20m Micro-Exercises (Set 1 + Set 2) ↔ 20m Walking Breaks (5 min walk) |
-| **Preventive User** | People who don't have any back issues | **40-min Walking Break**: Walk for 2–3 mins after every 40 mins. **No 20-min exercise alarm required.** |
+| **Preventive User** | People who don't have any back issues | **40-min Walking Break**: Walk for 5 mins after every 40 mins. **No 20-min exercise alarm required.** |
 
 > [!NOTE]
 > - **Disc Patients**: Require frequent mechanical pumping and posture resetting every 20 minutes to prevent disc tear compression.
-> - **Preventive Users**: Do not require micro-exercises; their primary requirement is breaking prolonged sitting by walking for 2–3 minutes every 40 minutes.
+> - **Preventive Users**: Do not require micro-exercises; their primary requirement is breaking prolonged sitting by walking for 5 minutes every 40 minutes.
 
 ---
 
@@ -49,8 +49,8 @@
 ```
 [Start]
   │
-  ├─ Alarm @ 40 min → Walk Break: Walk for 2–3 minutes (3-min timer)
-  │        └─ User taps "I'm Walking" → 3-min countdown → next 40m timer starts
+  ├─ Alarm @ 40 min → Walk Break: Walk for 5 minutes (5-min timer)
+  │        └─ User taps "I'm Walking" → 5-min countdown → next 40m timer starts
   │
   └─ [Repeats every 40 minutes throughout the active day — NO 20-min exercise alarm]
 ```
@@ -118,10 +118,10 @@ For every **20-minute alarm**, the app randomly picks **one exercise from each s
 - User taps **"I'm Walking"** → 5-minute countdown begins on screen.
 - After 5 minutes → notification rings → next 20-min Small Break (exercises) cycle begins.
 
-### 5.2 Preventive Users / No Back Issues (Walk Break — 2 to 3 Minutes)
+### 5.2 Preventive Users / No Back Issues (Walk Break — 5 Minutes)
 - **Schedule**: Every 40 minutes (no micro-exercise break).
 - Full-screen alarm card: **"🚶 Walk Break"**
-- User taps **"I'm Walking"** → 2–3 minute (180s) countdown begins on screen.
+- User taps **"I'm Walking"** → 5-minute (300s) countdown begins on screen.
 - After walking → notification rings → next 40-minute walk timer begins.
 - If user doesn't tap, snooze prompt appears after 2 minutes.
 - *(Phase 2: auto-detect via step counter)*
